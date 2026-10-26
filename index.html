@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Silsilah Edukatif: Jejak Brawijaya V di Tanah Madura</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Cinzel:wght@600;700;900&display=swap');
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: radial-gradient(circle at top right, #1e1b4b, #0f172a, #030712);
+      color: #f1f5f9;
+      min-height: 100vh;
+    }
+
+    .font-heritage {
+      font-family: 'Cinzel', serif;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+
+    /* Node Card Animation */
+    .tree-card {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .tree-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 16px 28px -8px rgba(0, 0, 0, 0.5);
+    }
+
+    .connector-line {
+      position: relative;
+    }
+    .connector-line::after {
+      content: '';
+      position: absolute;
+      width: 2px;
+      background: linear-gradient(to bottom, #ca8a04, #e2e8f0);
+    }
+  </style>
+</head>
+<body class="p-3 md:p-6 flex flex-col items-center">
+
+  <!-- HEADER -->
+  <header class="w-full max-w-7xl mb-8 text-center px-4">
+    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs md:text-sm font-semibold mb-3 tracking-wide uppercase">
+      <i data-lucide="crown" class="w-4 h-4"></i> Babad Sejarah & Silsilah Madura
+    </div>
+    <h1 class="font-heritage text-2xl md:text-4xl lg:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-500 mb-2 drop-shadow">
+      Silsilah Edukatif Dinasti Majapahit ke Madura
+    </h1>
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-slate-800/80 border border-slate-700 text-slate-300 text-xs md:text-sm font-medium mb-3">
+      <i data-lucide="user-check" class="w-4 h-4 text-emerald-400"></i>
+      Disusun & Diteliti oleh: <span class="text-amber-300 font-bold">Yanuar Agustin, S.Si.</span>
+    </div>
+    <p class="text-slate-300 text-xs md:text-base max-w-3xl mx-auto leading-relaxed">
+      Menelusuri jejak Prabu Brawijaya V, Pangeran Ario Lembu Pettheng di Madegan Sampang, berdirinya Kerajaan Plakaran Arosbaya, hingga Pangeran Cakraningrat I & Jalur Kewalian Buyut Abdul Alam Prajjan.
+    </p>
+
+    <!-- Navigation / Quick Filters -->
+    <div class="flex flex-wrap items-center justify-center gap-2 mt-6">
+      <button onclick="filterTree('all')" id="btn-all" class="filter-btn px-4 py-2 text-xs md:text-sm rounded-lg font-medium transition bg-amber-500 text-slate-950 font-semibold shadow">
+        Semua Jalur Silsilah
+      </button>
+      <button onclick="filterTree('sampang')" id="btn-sampang" class="filter-btn px-4 py-2 text-xs md:text-sm rounded-lg font-medium transition bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700">
+        Jalur Lembu Pettheng (Madegan)
+      </button>
+      <button onclick="filterTree('demak')" id="btn-demak" class="filter-btn px-4 py-2 text-xs md:text-sm rounded-lg font-medium transition bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700">
+        Jalur Raden Patah (Ario Damar)
+      </button>
+      <button onclick="filterTree('arosbaya')" id="btn-arosbaya" class="filter-btn px-4 py-2 text-xs md:text-sm rounded-lg font-medium transition bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700">
+        Dinasti Plakaran & Cakraningrat
+      </button>
+      <button onclick="filterTree('wali')" id="btn-wali" class="filter-btn px-4 py-2 text-xs md:text-sm rounded-lg font-medium transition bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700">
+        Jalur Dakwah & Bani Abdul Alam
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN INTERACTIVE CONTAINER -->
+  <main class="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+    <!-- TREE VISUALIZATION AREA (Col 8) -->
+    <section class="lg:col-span-8 bg-slate-900/80 backdrop-blur-md border border-slate-800 p-4 md:p-6 rounded-2xl shadow-2xl overflow-x-auto">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
+        <h2 class="text-lg md:text-xl font-bold flex items-center gap-2 text-amber-400">
+          <i data-lucide="git-branch" class="w-5 h-5"></i> Bagan Silsilah Interaktif
+        </h2>
+        <span class="text-xs text-slate-400 italic">Klik kartu tokoh untuk membaca narasi sejarah</span>
+      </div>
+
+      <!-- SILSILAH FLOW -->
+      <div class="space-y-10 min-w-[620px] pb-8" id="treeContainer">
+
+        <!-- GENERASI 1: PRABU BRAWIJAYA V -->
+        <div class="flex flex-col items-center">
+          <div class="text-[11px] font-bold text-amber-400/80 uppercase tracking-widest mb-2 bg-amber-950/40 px-3 py-1 rounded-full border border-amber-800/40">Generasi I - Akar Majapahit Terakhir</div>
+          <div onclick="selectPerson('brawijaya')" class="tree-card cursor-pointer bg-gradient-to-r from-amber-700/60 to-yellow-600/60 border-2 border-amber-400 p-4 rounded-xl text-center w-80 shadow-lg">
+            <span class="px-2 py-0.5 text-[10px] uppercase font-bold bg-amber-400 text-slate-950 rounded">Raja Majapahit V</span>
+            <h3 class="font-bold text-base text-amber-100 mt-1 font-heritage">Prabu Brawijaya V (Kertabhumi)</h3>
+            <p class="text-xs text-slate-300 mt-0.5">Menikah dgn Putri Campa, Putri Siu Ban Ci & Selir Endang Sasmitowati</p>
+          </div>
+          <div class="w-0.5 h-8 bg-amber-500/60 my-1"></div>
+        </div>
+
+        <!-- GENERASI 2: CABANG LEMBU PETTHENG & ARIO DAMAR -->
+        <div>
+          <div class="text-center text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Generasi II - Perpecahan Dua Garis Keturunan</div>
+          <div class="grid grid-cols-2 gap-8 relative">
+            <div class="absolute top-1/2 left-1/4 right-1/4 h-0.5 bg-slate-700 -z-0"></div>
+
+            <!-- Cabang 1: Lembu Pettheng -->
+            <div class="flex flex-col items-center z-10 node-sampang">
+              <div onclick="selectPerson('lembu_pettheng')" class="tree-card cursor-pointer bg-slate-800 border-2 border-blue-500/70 hover:border-blue-400 p-3.5 rounded-xl text-center w-full max-w-xs shadow">
+                <span class="px-2 py-0.5 text-[9px] uppercase font-bold bg-blue-500/20 text-blue-300 rounded border border-blue-500/30">Dari Putri Campa (Islam)</span>
+                <h4 class="font-bold text-sm text-slate-100 mt-1">Ario Lembu Pettheng</h4>
+                <p class="text-[11px] text-slate-300">Kamituwo di Madegan Sampang • Murid Sunan Ampel</p>
+              </div>
+              <div class="w-0.5 h-6 bg-slate-700 my-1"></div>
+            </div>
+
+            <!-- Cabang 2: Ario Damar / Raden Patah -->
+            <div class="flex flex-col items-center z-10 node-demak">
+              <div onclick="selectPerson('ario_damar')" class="tree-card cursor-pointer bg-slate-800 border-2 border-emerald-500/70 hover:border-emerald-400 p-3.5 rounded-xl text-center w-full max-w-xs shadow">
+                <span class="px-2 py-0.5 text-[9px] uppercase font-bold bg-emerald-500/20 text-emerald-300 rounded border border-emerald-500/30">Dari Selir Siu Ban Ci & Sasmitowati</span>
+                <h4 class="font-bold text-sm text-slate-100 mt-1">Ario Damar & Raden Patah</h4>
+                <p class="text-[11px] text-slate-300">Penguasa Palembang & Pendiri Kesultanan Demak Bintoro</p>
+              </div>
+              <div class="w-0.5 h-6 bg-slate-700 my-1"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GENERASI 3: PERNIKAHAN PENYATUAN (Ario Podjok x Nyai Budho) -->
+        <div class="node-sampang node-demak flex flex-col items-center">
+          <div class="text-[11px] font-bold text-purple-400 uppercase tracking-widest mb-2 bg-purple-950/40 px-3 py-1 rounded-full border border-purple-800/40">
+            Generasi Rekonsiliasi - Penyatuan Dua Kubu yang Terpisah Lama
+          </div>
+          <div class="p-3 bg-purple-950/30 border border-purple-500/40 rounded-xl flex items-center justify-center gap-3 max-w-md w-full shadow-inner">
+            <div onclick="selectPerson('raden_podjok')" class="cursor-pointer text-center flex-1 bg-slate-800/90 p-2.5 rounded-lg border border-purple-400/40 hover:bg-slate-750">
+              <span class="text-[10px] text-emerald-300 font-medium">Turunan Ario Damar</span>
+              <h5 class="font-bold text-xs text-slate-200">Raden Ario Podjok</h5>
+            </div>
+            <span class="text-amber-400 text-lg font-black">♥</span>
+            <div onclick="selectPerson('nyai_budho')" class="cursor-pointer text-center flex-1 bg-slate-800/90 p-2.5 rounded-lg border border-purple-400/40 hover:bg-slate-750">
+              <span class="text-[10px] text-blue-300 font-medium">Turunan Lembu Pettheng</span>
+              <h5 class="font-bold text-xs text-slate-200">Nyai Budho</h5>
+            </div>
+          </div>
+          <div class="w-0.5 h-6 bg-purple-500/50 my-1"></div>
+        </div>
+
+        <!-- GENERASI 4: KYAI DEMANG & NYAI SUMEKAR -->
+        <div class="node-arosbaya flex flex-col items-center">
+          <div onclick="selectPerson('kyai_demang')" class="tree-card cursor-pointer bg-slate-800 border-2 border-amber-600/80 p-3.5 rounded-xl text-center w-72 shadow">
+            <span class="px-2 py-0.5 text-[9px] uppercase font-bold bg-amber-500/20 text-amber-300 rounded border border-amber-500/30">Penguasa Demongan Sampang</span>
+            <h4 class="font-bold text-sm text-slate-100 mt-1">Kyai Demang x Nyai Sumekar</h4>
+            <p class="text-[11px] text-slate-300">Menurunkan 5 putra berwatak luhur</p>
+          </div>
+          <div class="w-0.5 h-6 bg-slate-700 my-1"></div>
+        </div>
+
+        <!-- GENERASI 5: KYAI PRAGOLBO (ISLAM ONGGHU') -->
+        <div class="node-arosbaya flex flex-col items-center">
+          <div onclick="selectPerson('pragalba')" class="tree-card cursor-pointer bg-slate-800 border-2 border-indigo-500/80 p-3.5 rounded-xl text-center w-80 shadow">
+            <span class="px-2 py-0.5 text-[9px] uppercase font-bold bg-indigo-500/20 text-indigo-300 rounded border border-indigo-500/30">Cikal Bakal Plakaran Arosbaya</span>
+            <h4 class="font-bold text-sm text-slate-100 mt-1">Kyai Pragolbo (Pangeran Plakaran)</h4>
+            <p class="text-[11px] text-slate-300">Dikenal dengan sebutan "Islam Onggu'" di akhir hayatnya</p>
+          </div>
+          <div class="w-0.5 h-6 bg-slate-700 my-1"></div>
+        </div>
+
+        <!-- GENERASI 6: PRATANU & DAKWAH EMPU BAGENO -->
+        <div class="grid grid-cols-2 gap-6 relative node-arosbaya node-wali">
+          <!-- Sisi 1: Pemerintahan Pratanu -->
+          <div class="flex flex-col items-center">
+            <div onclick="selectPerson('pratanu')" class="tree-card cursor-pointer bg-slate-800 border-2 border-sky-500 p-3.5 rounded-xl text-center w-full shadow">
+              <span class="px-2 py-0.5 text-[9px] font-bold bg-sky-500/20 text-sky-300 rounded">Raja Pembawa Kejayaan Islam</span>
+              <h4 class="font-bold text-xs md:text-sm text-slate-100 mt-1">Raden Pratanu (Panembahan Lemah Duwur)</h4>
+              <p class="text-[11px] text-slate-300">Mimpi Sayid Maghrobi & Berguru ke Sunan Kudus</p>
+            </div>
+            <div class="w-0.5 h-6 bg-slate-700 my-1"></div>
+
+            <!-- Generasi 7: Raden Koro -->
+            <div onclick="selectPerson('raden_koro')" class="tree-card cursor-pointer bg-slate-800 border border-slate-600 p-3 rounded-xl text-center w-full shadow mt-1">
+              <span class="text-[10px] text-amber-300 font-semibold">Pangeran Tengah</span>
+              <h5 class="font-bold text-xs text-slate-200">Raden Koro x Rato Ebu Sampang</h5>
+              <p class="text-[10px] text-slate-400">Putri Pangeran Zuhro (Pernikahan Sepupu)</p>
+            </div>
+            <div class="w-0.5 h-6 bg-slate-700 my-1"></div>
+
+            <!-- Generasi 8: Raden Praseno (Cakraningrat I) -->
+            <div onclick="selectPerson('cakraningrat')" class="tree-card cursor-pointer bg-gradient-to-r from-amber-600/40 to-yellow-600/40 border-2 border-amber-400 p-3 rounded-xl text-center w-full shadow mt-1">
+              <span class="px-2 py-0.5 text-[9px] font-bold bg-amber-400 text-slate-950 rounded">Penguasa Madura Barat</span>
+              <h5 class="font-bold text-xs md:text-sm text-amber-200">Pangeran Cakraningrat I (Raden Praseno)</h5>
+              <p class="text-[10px] text-slate-300">Menikah dengan Syarifah Ambami (Rato Ebu Arosbaya)</p>
+            </div>
+          </div>
+
+          <!-- Sisi 2: Patih Empu Bageno & Dakwah Panyepen -->
+          <div class="flex flex-col items-center">
+            <div onclick="selectPerson('empu_bageno')" class="tree-card cursor-pointer bg-slate-800 border-2 border-teal-500 p-3.5 rounded-xl text-center w-full shadow">
+              <span class="px-2 py-0.5 text-[9px] font-bold bg-teal-500/20 text-teal-300 rounded">Patih Sakti & Utusan Kudus</span>
+              <h4 class="font-bold text-xs md:text-sm text-slate-100 mt-1">Patih Empu Bageno</h4>
+              <p class="text-[11px] text-slate-300">Terbang di atas air & Karomah Pelepah Krocok</p>
+            </div>
+            <div class="w-0.5 h-6 bg-slate-700 my-1"></div>
+
+            <!-- Generasi 7 Dakwah: Raden Kobul -->
+            <div onclick="selectPerson('raden_kobul')" class="tree-card cursor-pointer bg-slate-800 border border-teal-400 p-3 rounded-xl text-center w-full shadow mt-1">
+              <span class="text-[10px] text-teal-300 font-semibold">Buyut Aji Gunung (Panyepen)</span>
+              <h5 class="font-bold text-xs text-slate-200">Raden Kobul (Putra Empu Bageno)</h5>
+              <p class="text-[10px] text-slate-400">Jatuhnya Lidi Arusbaya di Dalpenang Sampang</p>
+            </div>
+            <div class="w-0.5 h-6 bg-slate-700 my-1"></div>
+
+            <!-- Santri Utama & Nasab Keluarga -->
+            <div onclick="selectPerson('abdul_alam')" class="tree-card cursor-pointer bg-emerald-950/50 border-2 border-emerald-400 p-3 rounded-xl text-center w-full shadow mt-1">
+              <span class="px-2 py-0.5 text-[9px] font-bold bg-emerald-500 text-slate-950 rounded">Menantu & Santri Waliyullah</span>
+              <h5 class="font-bold text-xs md:text-sm text-emerald-200">Buyut Abdul Alam (Prajjan Camplong)</h5>
+              <p class="text-[10px] text-slate-300">Pangkal Nasab Bani Abdul Alam</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- DETAIL INFORMASI TOKOH & KHAZANAH SEJARAH (Col 4) -->
+    <section class="lg:col-span-4 flex flex-col gap-5">
+
+      <!-- Panel Detail Tokoh -->
+      <div id="detailPanel" class="bg-slate-900 border border-slate-800 p-5 rounded-2xl shadow-xl flex-1 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+            <span class="text-xs uppercase font-bold text-amber-400 flex items-center gap-1.5">
+              <i data-lucide="book-open" class="w-4 h-4"></i> Fakta Edukatif Tokoh
+            </span>
+            <span id="roleBadge" class="text-[10px] font-semibold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">
+              Kerajaan
+            </span>
+          </div>
+
+          <h3 id="personName" class="text-xl font-bold text-slate-100 font-heritage mb-1">
+            Prabu Brawijaya V
+          </h3>
+          <p id="personAlias" class="text-xs text-amber-300/80 mb-3 italic">
+            Prabu Kertabhumi - Raja Terakhir Majapahit
+          </p>
+
+          <div id="personStory" class="text-slate-300 text-xs md:text-sm leading-relaxed space-y-2.5">
+            <p>
+              Merupakan raja pamungkas imperium Majapahit. Beliau beristrikan <strong>Permaisuri Putri Campa (Ratu Dwarowati)</strong> yang beragama Islam, serta memiliki selir Putri Siu Ban Ci (Tionghoa) dan Endang Sasmitowati.
+            </p>
+            <p>
+              Dari Putri Campa lahirlah Pangeran Ario Lembu Pettheng yang di kemudian hari menjadi leluhur penguasa Sampang dan Madura.
+            </p>
+          </div>
+        </div>
+
+        <!-- Khazanah Cagar Budaya / Bukti Sejarah -->
+        <div id="heritageBox" class="mt-6 pt-4 border-t border-slate-800">
+          <div class="text-[11px] font-semibold text-slate-400 mb-1 flex items-center gap-1.5">
+            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-red-400"></i> Situs Terkait & Peninggalan:
+          </div>
+          <p id="personHeritage" class="text-xs text-amber-200/90 bg-slate-950/60 p-2.5 rounded-lg border border-slate-800">
+            Candi Cetho, Trowulan, dan makam keturunan di Ampel & Madura.
+          </p>
+        </div>
+      </div>
+
+      <!-- Kartu Khusus: Nasab Bani Abdul Alam Prajjan -->
+      <div class="bg-gradient-to-br from-emerald-950/40 to-slate-900 border border-emerald-500/30 p-4 rounded-2xl shadow-lg">
+        <h4 class="text-sm font-bold text-emerald-300 flex items-center justify-between mb-2 font-heritage">
+          <span class="flex items-center gap-2">
+            <i data-lucide="scroll" class="w-4 h-4"></i> Jalur Nasab Penutur (Bani Abdul Alam)
+          </span>
+          <span class="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-sans">
+            Tervalidasi
+          </span>
+        </h4>
+        <div class="text-[11px] text-slate-300 leading-relaxed font-mono bg-slate-950/70 p-3 rounded-xl border border-emerald-900/50 space-y-1">
+          <div class="text-emerald-400 font-semibold">• Buyut Abdul Alam (Prajjan Camplong)</div>
+          <div class="pl-3">↳ Nyai Rainten</div>
+          <div class="pl-6">↳ Rubeah</div>
+          <div class="pl-9">↳ Siti Khodijah</div>
+          <div class="pl-12">↳ Haweri</div>
+          <div class="pl-14 text-amber-300 font-semibold">↳ Hj. Mu’minnah (Ibunda Penutur)</div>
+          <div class="pl-16 text-cyan-300 font-bold">↳ Yanuar Agustin, S.Si. (Penutur / Penyusun)</div>
+        </div>
+
+        <!-- Bukti Dokumen Otentik Dzurriyah -->
+        <div class="mt-3 pt-3 border-t border-emerald-900/40">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[11px] font-semibold text-emerald-300 flex items-center gap-1.5">
+              <i data-lucide="file-check-2" class="w-3.5 h-3.5 text-amber-400"></i> Bukti Otentik Dzurriyah:
+            </span>
+            <div class="flex items-center gap-1.5">
+              <label for="imgUploadInput" class="text-[10px] text-emerald-300 hover:text-white cursor-pointer bg-emerald-950/80 hover:bg-emerald-800/60 px-2 py-0.5 rounded border border-emerald-500/40 flex items-center gap-1 transition">
+                <i data-lucide="upload" class="w-3 h-3"></i> Muat Foto
+              </label>
+              <input type="file" id="imgUploadInput" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
+              <button onclick="openProofModal()" class="text-[10px] text-amber-300 hover:text-amber-200 font-semibold underline flex items-center gap-1 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">
+                <i data-lucide="maximize-2" class="w-3 h-3"></i> Perbesar
+              </button>
+            </div>
+          </div>
+
+          <!-- Tampilan Gambar Utama yang Lebih Jelas dan Besar -->
+          <div onclick="openProofModal()" class="cursor-pointer group relative overflow-hidden rounded-xl border-2 border-emerald-700/70 hover:border-emerald-400 bg-slate-950 p-2.5 transition shadow-lg">
+            <div class="w-full h-64 bg-slate-900 rounded-lg overflow-hidden flex items-center justify-center relative border border-slate-800">
+              <!-- Gambar dengan encoded path dan fallback terstruktur -->
+              <img id="mainProofImg" 
+                   src="WhatsApp%20Image%202026-10-27%20at%2006.05.38.jpeg" 
+                   alt="Undangan Resmi Haul Dzurriyah Buju' Kyai Abdul Alam" 
+                   class="w-full h-full object-contain group-hover:scale-105 transition duration-300"
+                   onerror="handleImageFallback(this)">
+              
+              <!-- Fallback Banner Teks jika gambar lokal belum terhubung -->
+              <div id="imagePlaceholder" class="hidden absolute inset-0 p-4 bg-slate-900/95 flex flex-col justify-center items-center text-center">
+                <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-2">
+                  <i data-lucide="file-text" class="w-5 h-5"></i>
+                </div>
+                <p class="text-xs font-bold text-slate-200 mb-1">Surat Fisik Terverifikasi</p>
+                <p class="text-[10px] text-slate-400 max-w-[200px] mb-2 leading-tight">Klik tombol "Muat Foto" di atas jika membuka dari folder perangkat lokal Anda.</p>
+                <span class="text-[9px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30 font-mono">
+                  Hj. Mu'minnah (Dzurriyah)
+                </span>
+              </div>
+
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end justify-between p-2 pointer-events-none">
+                <span class="text-[10px] bg-slate-900/90 text-amber-300 px-2 py-0.5 rounded border border-amber-400/40 flex items-center gap-1 font-semibold">
+                  <i data-lucide="zoom-in" class="w-3 h-3"></i> Klik untuk buka dokumen
+                </span>
+                <span class="text-[9px] bg-emerald-600/90 text-white px-1.5 py-0.5 rounded font-bold">
+                  Arsip Fisik
+                </span>
+              </div>
+            </div>
+
+            <div class="mt-2.5 space-y-1 text-[11px]">
+              <div class="flex items-center justify-between">
+                <p class="font-bold text-amber-200">Arsip Undangan Dzurriyah Ke-XXIII</p>
+                <span class="text-[9px] text-emerald-400 font-semibold">Tahun 2025 M</span>
+              </div>
+              <p class="text-slate-300 text-[10.5px]"><strong>Penerima:</strong> <span class="text-amber-300 font-bold bg-amber-950/60 px-1.5 py-0.5 rounded border border-amber-500/30">Hj. Mu'minnah</span></p>
+              <p class="text-slate-400 text-[10px] leading-tight"><strong>Pengundang:</strong> Forum Shilaturrahim Bani Abdul Alam Prajjan Sampang</p>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-[9.5px] text-slate-400 mt-2.5 italic">
+          *Bukti fisik arsip undangan silsilah keluarga mengonfirmasi bahwa Hj. Mu'minnah tercatat resmi sebagai Dzurriyah dari Buju' Kyai Abdul Alam Prajjan.
+        </p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- MODAL VIEWER BUKTI DOKUMEN -->
+  <div id="proofModal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md hidden items-center justify-center p-3 md:p-6">
+    <div class="bg-slate-900 border border-emerald-500/50 max-w-5xl w-full rounded-2xl p-4 md:p-6 shadow-2xl relative flex flex-col max-h-[95vh]">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="p-2 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400">
+            <i data-lucide="badge-check" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h4 class="text-base font-bold text-slate-100">Arsip Otentik: Undangan Dzurriyah Bani Abdul Alam</h4>
+            <p class="text-xs text-amber-300">Validasi Jalur Kekerabatan Ibunda Penutur (Hj. Mu'minnah)</p>
+          </div>
+        </div>
+        <button onclick="closeProofModal()" class="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-800 transition">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 overflow-y-auto p-1 flex-1">
+        <!-- Kolom Foto Dokumen Full & Jelas (Col 7) -->
+        <div class="md:col-span-7 bg-slate-950 rounded-xl border border-slate-800 p-2 flex flex-col items-center justify-center overflow-hidden relative min-h-[340px]">
+          <img id="modalProofImg" 
+               src="WhatsApp%20Image%202026-10-27%20at%2006.05.38.jpeg" 
+               alt="Undangan Resmi Haul Dzurriyah Buju' Kyai Abdul Alam" 
+               class="w-full max-h-[70vh] object-contain rounded-lg shadow-2xl transition duration-200" 
+               onerror="handleModalFallback(this)">
+          
+          <div id="modalPlaceholder" class="hidden flex flex-col items-center justify-center p-6 text-center text-slate-300">
+            <i data-lucide="image-off" class="w-12 h-12 text-slate-500 mb-3"></i>
+            <p class="text-sm font-semibold text-slate-200 mb-1">Foto Berkas Belum Terhubung Langsung</p>
+            <p class="text-xs text-slate-400 max-w-sm mb-4">Pastikan file gambar berada dalam folder yang sama dengan file HTML, atau gunakan tombol di bawah untuk memilih file foto langsung dari galeri / komputer Anda.</p>
+            <label for="imgUploadInputModal" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-xl cursor-pointer flex items-center gap-2 shadow">
+              <i data-lucide="upload" class="w-4 h-4"></i> Pilih Berkas Foto dari HP/Laptop
+            </label>
+            <input type="file" id="imgUploadInputModal" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
+          </div>
+        </div>
+
+        <!-- Kolom Transkripsi & Rincian Bukti (Col 5) -->
+        <div class="md:col-span-5 flex flex-col justify-between space-y-3">
+          <div class="space-y-3 text-xs text-slate-300 bg-slate-950/70 p-4 rounded-xl border border-slate-800">
+            <div class="text-amber-300 font-bold text-xs flex items-center gap-1.5 border-b border-slate-800 pb-2">
+              <i data-lucide="file-text" class="w-4 h-4 text-emerald-400"></i> Transkripsi Data Dokumen:
+            </div>
+            
+            <div class="space-y-2">
+              <div>
+                <span class="text-[10px] text-slate-400 uppercase font-semibold block">Lembaga Penyelenggara:</span>
+                <span class="font-bold text-slate-100">FORUM SHILATURRAHIM BANI ABDUL ALAM</span>
+                <span class="text-slate-400 block text-[11px]">Prajjan Kec. Camplong Kab. Sampang</span>
+              </div>
+
+              <div>
+                <span class="text-[10px] text-slate-400 uppercase font-semibold block">Nama Dzurriyah (Tertuju):</span>
+                <span class="font-bold text-amber-300 text-sm bg-amber-950/60 px-2 py-0.5 rounded border border-amber-500/40 inline-block">Hj. Mu'minnah</span>
+              </div>
+
+              <div>
+                <span class="text-[10px] text-slate-400 uppercase font-semibold block">Perihal Acara:</span>
+                <span class="font-medium text-slate-200">"Haul BUJU' KYAI ABDUL ALAM Prajjan & Shilaturrahmi Dzurriyah BUJU' KYAI ABDUL ALAM Yang ke XXIII"</span>
+              </div>
+
+              <div>
+                <span class="text-[10px] text-slate-400 uppercase font-semibold block">Hari / Tanggal / Lokasi:</span>
+                <span class="text-slate-200 font-medium">Sabtu, 6 Syawal 1446 H / 05 April 2025 M</span>
+                <span class="text-slate-400 block text-[11px]">PP. At-Thobroniyah Masjid Taddan Camplong Sampang</span>
+              </div>
+
+              <div>
+                <span class="text-[10px] text-slate-400 uppercase font-semibold block">Pihak Pengundang:</span>
+                <span class="text-slate-300 text-[11px] block">• Kordinator: KH. Syafiuddin Abd Wahid</span>
+                <span class="text-slate-300 text-[11px] block">• Shohibul Bait: KH. Syafiuddin Barodi</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-emerald-950/50 p-3 rounded-xl border border-emerald-500/40 text-[11px] text-emerald-200 leading-relaxed">
+            <span class="font-bold flex items-center gap-1.5 text-emerald-300 mb-1">
+              <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Bukti Legalitas Nasab:
+            </span>
+            Undangan silaturrahim akbar ini secara sah membuktikan keterikatan trah darah (Dzurriyah) keluarga Ibu Hj. Mu'minnah kepada <strong>Buju' Kyai Abdul Alam Prajjan</strong>.
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-slate-800 mt-3 flex items-center justify-between">
+        <span class="text-xs text-slate-400">Penyusun Silsilah: <strong class="text-amber-300">Yanuar Agustin, S.Si.</strong></span>
+        <button onclick="closeProofModal()" class="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold border border-slate-700 transition">
+          Tutup Pratinjau
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- KOTAK GLOSARIUM & CATATAN EDUKASI -->
+  <footer class="w-full max-w-7xl mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+    <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
+      <h5 class="font-bold text-amber-300 mb-1 flex items-center gap-1.5">
+        <i data-lucide="info" class="w-4 h-4"></i> Apa itu "Islam Onggu'"?
+      </h5>
+      <p class="text-slate-400 leading-relaxed">
+        Julukan untuk Kyai Pragolbo (Pangeran Plakaran). Saat sekarat, ia dibimbing syahadat oleh Raden Pratanu dan hanya bisa mengangguk (<em>onggu'</em> dalam bahasa Madura) karena lidahnya telah kelu.
+      </p>
+    </div>
+
+    <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
+      <h5 class="font-bold text-teal-300 mb-1 flex items-center gap-1.5">
+        <i data-lucide="sparkles" class="w-4 h-4"></i> Asal Nama Panyepen & Teja
+      </h5>
+      <p class="text-slate-400 leading-relaxed">
+        <strong>Panyepen</strong>: Tempat Buyut Raden Kobul bersemedi di liang tanah persegi sebelum berdakwah.<br>
+        <strong>Kampung Teja</strong>: Lokasi sumur dan tempat bersuci/buang hajat Buyut Aji Gunung dekat SDN Dalpenang 2.
+      </p>
+    </div>
+
+    <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
+      <h5 class="font-bold text-sky-300 mb-1 flex items-center gap-1.5">
+        <i data-lucide="users" class="w-4 h-4"></i> Dua Rato Ebu yang Berbeda
+      </h5>
+      <p class="text-slate-400 leading-relaxed">
+        <strong>Rato Ebu Sampang</strong>: Ibunda dari Raden Praseno (istri Raden Koro).<br>
+        <strong>Rato Ebu Arosbaya</strong>: Syarifah Ambami, istri Raden Praseno (Cakraningrat I), sehingga ia adalah menantu dari Rato Ebu Sampang.
+      </p>
+    </div>
+  </footer>
+
+  <!-- CREDIT FOOTER -->
+  <div class="w-full max-w-7xl mt-6 pb-6 text-center text-xs text-slate-500 border-t border-slate-800/80 pt-4 flex flex-col md:flex-row items-center justify-between gap-2 px-2">
+    <span>© 2026 Silsilah Edukatif Dinasti Majapahit ke Madura. Dilisensikan untuk literasi sejarah keluarga & publik.</span>
+    <span class="text-slate-400">
+      Disusun dengan teliti oleh: <strong class="text-amber-300">Yanuar Agustin, S.Si.</strong>
+    </span>
+  </div>
+
+  <!-- DATA & JAVASCRIPT LOGIC -->
+  <script>
+    // Data Tokoh Silsilah Lengkap
+    const peopleData = {
+      brawijaya: {
+        name: "Prabu Brawijaya V (Kertabhumi)",
+        alias: "Raja Terakhir Majapahit (Hindu-Buddha)",
+        role: "Akar Dinasti",
+        story: `<p>Raja agung pamungkas Majapahit yang beristrikan <strong>Permaisuri Putri Campa (Ratu Dwarowati)</strong> yang beragama Islam, serta selir Siu Ban Ci (Tionghoa) dan Selir Endang Sasmitowati.</p><p>Ketika situasi politik Majapahit bergejolak menjelang keruntuhannya, beliau mengutus putranya, <strong>Ario Lembu Pettheng</strong>, menjadi kamituwo (penguasa daerah) di Madegan Sampang.</p>`,
+        heritage: "Peninggalan Majapahit di Trowulan & Catatan Babad Sampang."
+      },
+      lembu_pettheng: {
+        name: "Pangeran Ario Lembu Pettheng",
+        alias: "Kamituwo Pertama di Madegan Sampang",
+        role: "Jalur Sampang",
+        story: `<p>Awalnya beragama Buddha saat memimpin Madegan. Ia mengutus seseorang belajar Islam ke Sunan Ampel, namun sang utusan justru masuk Islam dan tidak kembali.</p><p>Ario Lembu Pettheng akhirnya berangkat sendiri berguru langsung ke Sunan Ampel hingga wafat dan dimakamkan di kompleks Makam Sunan Ampel, Surabaya. Sebelum pergi, ia menyerahkan tampuk kekuasaan kepada putra sulungnya, <strong>Ario Menger</strong>.</p><p>Putra lainnya: <strong>Ario Mengo</strong> (membuka Pamellengan/Pamekasan) dan <strong>Retno Dewi</strong> (menikah dengan putra Sunan Giri).</p>`,
+        heritage: "Situs Petilasan Madegan Sampang & Makam di Ampel Surabaya."
+      },
+      ario_damar: {
+        name: "Raden Ario Damar & Raden Patah",
+        alias: "Penguasa Palembang & Raja Demak Pertama",
+        role: "Jalur Palembang/Demak",
+        story: `<p>Akibat kecemburuan Putri Campa, selir Siu Ban Ci yang sedang mengandung diserahkan kepada Ario Damar di Palembang, hingga lahirlah Raden Patah (Sultan Demak I).</p><p>Ario Damar dan Lembu Pettheng merupakan saudara seayah (beda ibu) yang sempat terpisah sangat lama dan berselisih dalam peta politik Jawa pada masa transisi Majapahit-Demak.</p>`,
+        heritage: "Masjid Agung Demak & Makam Raden Fatah di Bintoro."
+      },
+      raden_podjok: {
+        name: "Raden Ario Podjok",
+        alias: "Keturunan Raden Ario Damar",
+        role: "Jalur Rekonsiliasi",
+        story: `<p>Tokoh kunci dari garis Raden Ario Damar yang menikahi <strong>Nyai Budho</strong> dari garis Ario Lembu Pettheng.</p><p>Pernikahan ini mengakhiri perseteruan panjang antara dua trah darah Brawijaya V dan menyatukan kembali ikatan kekerabatan keluarga besar di Madura.</p>`,
+        heritage: "Makam Kuno di daerah Sampang/Madura."
+      },
+      nyai_budho: {
+        name: "Nyai Budho",
+        alias: "Keturunan Raden Ario Lembu Pettheng",
+        role: "Jalur Rekonsiliasi",
+        story: `<p>Bangsawan putri trah Madegan yang dipersunting Raden Ario Podjok. Dari rahim beliau lahir 5 orang putra, di antaranya <strong>Kyai Demang</strong> yang menjadi tokoh berpengaruh di pulau Madura.</p>`,
+        heritage: "Tradisi lisan & Babad Madura Madegan."
+      },
+      kyai_demang: {
+        name: "Kyai Demang x Nyai Sumekar",
+        alias: "Penguasa Demongan Sampang",
+        role: "Keluarga Inti Madura",
+        story: `<p>Memimpin wilayah Demongan Sampang dengan budi pekerti luhur, welas asih, dan dihormati oleh seluruh kepala kampung dan tokoh masyarakat.</p><p>Pernikahannya dengan Nyai Sumekar menghasilkan 5 orang putra, di mana putra yang paling mewarisi sikap terpuji dan disiapkan memimpin adalah <strong>Kyai Pragolbo</strong>.</p>`,
+        heritage: "Wilayah Demongan, Kabupaten Sampang."
+      },
+      pragalba: {
+        name: "Kyai Pragolbo (Pangeran Plakaran)",
+        alias: "Penguasa Plakaran Arosbaya / Islam Onggu'",
+        role: "Dinasti Plakaran",
+        story: `<p>Mendirikan dan membesarkan cikal bakal Kerajaan Plakaran di Arosbaya, Bangkalan. Memiliki watak mulia warisan ayahnya.</p><p>Meskipun putranya (Raden Pratanu) memeluk Islam, Kyai Pragolbo tetap berpegang pada ajaran Buddha hingga akhir hidupnya. Saat sakaratul maut, ia dibacakan kalimat syahadat dan hanya mampu menganggukkan kepala (<em>Islam Onggu'</em>).</p>`,
+        heritage: "Situs Pemakaman Raja-Raja Plakaran Arosbaya, Bangkalan."
+      },
+      pratanu: {
+        name: "Raden Pratanu (Panembahan Lemah Duwur)",
+        alias: "Raja Muslim Pertama Arosbaya",
+        role: "Masa Keemasan Islam",
+        story: `<p>Menerima mimpi berturut-turut didatangi Sayid Maghrobi yang memintanya memeluk Islam dan berguru kepada Sunan Kudus. Setelah bermusyawarah dengan ayahnya, ia mengutus Patih Empu Bageno ke Demak.</p><p>Di bawah kepemimpinannya, Kerajaan Plakaran berkembang sangat makmur dan peradaban Islam berdiri kokoh di Madura Barat.</p>`,
+        heritage: "Kompleks Makam Panembahan Lemah Duwur di Arosbaya."
+      },
+      empu_bageno: {
+        name: "Patih Empu Bageno",
+        alias: "Patih Sakti & Utusan ke Sunan Kudus",
+        role: "Tokoh Karomah",
+        story: `<p>Awalnya menguasai ilmu kesaktian Buddha hingga mampu berjalan cepat laksana terbang melintasi Selat Madura tanpa basah. Namun saat diuji oleh Sunan Kudus, ia tersadar akan ketinggian hakikat Islam dan bersyahadat tulus.</p><p>Ia pulang ke Madura menaiki pelepah kelapa (krocok) dalam sekejap mata. Sempat dimarahi Kyai Pragolbo karena masuk Islam tanpa izin, namun akhirnya justru dipercaya menyebarkan syiar Islam.</p>`,
+        heritage: "Legenda Krocok Sunan Kudus & Arosbaya."
+      },
+      raden_kobul: {
+        name: "Buyut Raden Kobul (Buyut Aji Gunung)",
+        alias: "Putra Empu Bageno - Pendakwah Sampang",
+        role: "Waliyullah & Ulama",
+        story: `<p>Setelah nyantri di Sunan Ampel, ia diperintahkan ayahnya mencari tempat dakwah dengan mengikuti jatuhnya lidi yang dilempar dari Arusbaya. Lidi jatuh di <strong>Kampung Panyepen (Kelurahan Dalpenang, Sampang)</strong>.</p><p>Beliau menyepi (tapa <em>nyepen</em>) di liang tanah sebelum membuka pusat dakwah yang kemudian dibanjiri santri dari seantero pulau Madura.</p>`,
+        heritage: "Surau kuno Dalpenang, Sumur Keramat & Makam Aji Gunung Sampang."
+      },
+      abdul_alam: {
+        name: "Buyut Abdul Alam (Prajjan Camplong)",
+        alias: "Santri Utama & Menantu Buyut Raden Kobul",
+        role: "Tiga Serangkai Wali Sampang",
+        story: `<p>Satu dari tiga santri utama berderajat waliyullah bersama Kyai Abdurrohman Agung Raba (Pamekasan) dan Buyut Abdul Jabbar (Napo Omben).</p><p>Diambil menantu oleh Raden Kobul dan menurunkan silsilah keluarga besar (Bani Abdul Alam) yang tersebar di Madura, termasuk jalur penutur riwayat ini.</p>`,
+        heritage: "Pesarean Prajjan, Camplong, Sampang."
+      },
+      raden_koro: {
+        name: "Raden Koro (Pangeran Tengah)",
+        alias: "Penguasa Arosbaya Penerus Lemah Duwur",
+        role: "Pangeran Arosbaya",
+        story: `<p>Putra Raden Pratanu yang meneruskan tahta dan menikahi saudara sepupunya sendiri yaitu <strong>Rato Ebu Sampang</strong> (putri dari Pangeran Zuhro / Pradoto, saudara Pratanu beda ibu).</p><p>Dari pernikahan bangsawan Arosbaya-Sampang ini, lahir kesatria tangguh bernama <strong>Raden Praseno</strong>.</p>`,
+        heritage: "Babad Tanah Madura & Kompleks Makam Raja Arosbaya."
+      },
+      cakraningrat: {
+        name: "Pangeran Cakraningrat I (Raden Praseno)",
+        alias: "Penguasa Madura Barat (Pusat di Sampang)",
+        role: "Keluarga Utama Madura",
+        story: `<p>Awalnya dibawa ke Mataram sebagai tawanan perang usai penaklukan Arosbaya. Karena kecerdasan dan keberaniannya, Sultan Agung justru mengangkatnya sebagai <strong>Pangeran Cakraningrat I</strong> untuk memimpin seluruh Madura Barat.</p><p>Beliau beristrikan <strong>Syarifah Ambami (Rato Ebu Arosbaya)</strong>, keturunan Sunan Giri, yang makam keramatnya dikenal sebagai komplek Makam Air Mata Ibu di Bangkalan.</p>`,
+        heritage: "Makam Rato Ebu (Aer Mata Ebhu) Bangkalan & Prasasti Sampang."
+      }
+    };
+
+    // Fungsi Penanganan Gambar & Fallback
+    function handleImageFallback(imgElem) {
+      if (!imgElem.dataset.triedSecond) {
+        imgElem.dataset.triedSecond = "true";
+        imgElem.src = "WhatsApp%20Image%202026-10-27%20at%2006.05.38_2.jpeg";
+      } else {
+        imgElem.style.display = "none";
+        const placeholder = document.getElementById('imagePlaceholder');
+        if (placeholder) placeholder.classList.remove('hidden');
+      }
+    }
+
+    function handleModalFallback(imgElem) {
+      if (!imgElem.dataset.triedSecond) {
+        imgElem.dataset.triedSecond = "true";
+        imgElem.src = "WhatsApp%20Image%202026-10-27%20at%2006.05.38_2.jpeg";
+      } else {
+        imgElem.style.display = "none";
+        const placeholder = document.getElementById('modalPlaceholder');
+        if (placeholder) placeholder.classList.remove('hidden');
+      }
+    }
+
+    // Fungsi Upload Gambar Dinamis Secara Langsung di Browser
+    function handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const dataUrl = e.target.result;
+        
+        // Perbarui gambar di panel utama
+        const mainImg = document.getElementById('mainProofImg');
+        if (mainImg) {
+          mainImg.src = dataUrl;
+          mainImg.style.display = "block";
+          const placeholder = document.getElementById('imagePlaceholder');
+          if (placeholder) placeholder.classList.add('hidden');
+        }
+
+        // Perbarui gambar di modal
+        const modalImg = document.getElementById('modalProofImg');
+        if (modalImg) {
+          modalImg.src = dataUrl;
+          modalImg.style.display = "block";
+          const modalPlaceholder = document.getElementById('modalPlaceholder');
+          if (modalPlaceholder) modalPlaceholder.classList.add('hidden');
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Modal Bukti Dzurriyah
+    function openProofModal() {
+      const modal = document.getElementById('proofModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeProofModal() {
+      const modal = document.getElementById('proofModal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+    }
+
+    // Fungsi Klik Menampilkan Detail
+    function selectPerson(id) {
+      const data = peopleData[id];
+      if (!data) return;
+
+      document.getElementById('personName').innerText = data.name;
+      document.getElementById('personAlias').innerText = data.alias;
+      document.getElementById('roleBadge').innerText = data.role;
+      document.getElementById('personStory').innerHTML = data.story;
+      document.getElementById('personHeritage').innerText = data.heritage;
+
+      // Scroll halus ke detail panel jika tampilan mobile
+      if (window.innerWidth < 1024) {
+        document.getElementById('detailPanel').scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // Fungsi Filter Jalur Silsilah
+    function filterTree(category) {
+      // Update styling tombol
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('bg-amber-500', 'text-slate-950', 'font-semibold');
+        btn.classList.add('bg-slate-800', 'text-slate-300');
+      });
+
+      const activeBtn = document.getElementById('btn-' + category);
+      if(activeBtn) {
+        activeBtn.classList.add('bg-amber-500', 'text-slate-950', 'font-semibold');
+        activeBtn.classList.remove('bg-slate-800', 'text-slate-300');
+      }
+
+      // Logika Penyorotan/Highlighting Node
+      const allCards = document.querySelectorAll('.tree-card');
+      if (category === 'all') {
+        allCards.forEach(c => c.style.opacity = '1');
+      } else {
+        allCards.forEach(c => c.style.opacity = '0.35');
+
+        // Buka opacity bagi yang match class
+        const matchedContainers = document.querySelectorAll('.node-' + category);
+        matchedContainers.forEach(container => {
+          container.querySelectorAll('.tree-card').forEach(c => c.style.opacity = '1');
+          if(container.classList.contains('tree-card')) {
+            container.style.opacity = '1';
+          }
+        });
+      }
+    }
+
+    // Init icons
+    lucide.createIcons();
+  </script>
+</body>
+</html>
